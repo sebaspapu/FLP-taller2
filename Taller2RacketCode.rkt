@@ -1,6 +1,5 @@
 #lang eopl
 #|
-FLP
 Jairo Hernan Gonzalez Barreto - 202324314
 Sebastian saramanbiche 
 |#
@@ -94,3 +93,62 @@ lista-clausulas)))
 (define-datatype fnc fnc?
   (fnc-exp (numvars number?) (cls clausulas?)))
 
+
+
+;; PARSE
+
+;; Convierte una clausula BNF a lista de literales
+;; (1 or 2 or -3) -> (1 2 -3)
+
+(define parse-clausula (lambda (cl)
+    (cond
+      [(null? cl) empty]
+      [(number? (car cl)) (cons (car cl) (parse-clausula (cdr cl)))]
+      [(equal? (car cl) 'or) (parse-clausula (cdr cl))]
+      [else empty])))
+
+
+;; Convierte clausulas BNF
+;; ((1 or 2) and (3 or -1)) -> ((1 2) (3 -1))
+
+(define parse-clausulas(lambda (cls)
+    (cond
+      [(null? (cdr cls)) (list (parse-clausula (car cls)))]
+      [else
+       (cons (parse-clausula (car cls)) (parse-clausulas (cddr cls)))])))
+
+
+;; Convierte una FNC completa
+;; PARSEBNF ::= BNF -> AST
+
+(define PARSEBNF (lambda (fnc)
+    (list (car fnc) (cadr fnc) (parse-clausulas (caddr fnc)))))
+
+
+
+
+;; UNPARSE
+
+;; Convierte (1 2 -3) -> (1 or 2 or -3)
+
+(define unparse-clausula (lambda (cl)
+    (cond
+      [(null? (cdr cl)) (list (car cl))]
+      [else
+       (cons (car cl) (cons 'or (unparse-clausula (cdr cl))))])))
+
+
+;; Convierte ((1 2) (3 -1)) -> ((1 or 2) and (3 or -1))
+
+(define unparse-clausulas (lambda (cls)
+    (cond
+      [(null? (cdr cls)) (list (unparse-clausula (car cls)))]
+      [else
+       (cons (unparse-clausula (car cls)) (cons 'and (unparse-clausulas (cdr cls))))]
+     )))
+
+
+;; Convierte AST basado en listas a BNF
+;; UNPARSEBNF ::= AST -> BNF
+(define UNPARSEBNF (lambda (lst)
+    (list (car lst) (cadr lst) (unparse-clausulas (caddr lst)))))
