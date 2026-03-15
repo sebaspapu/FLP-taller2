@@ -22,23 +22,30 @@ Sebastian saramanbiche
 |#
 
 
-;; Constructores
+;; CONSTRUCTORES
 
+;; Construye una cláusula a partir de una lista de literales
+;; insertando el operador lógico (OR) entre cada uno de ellos
+
+;; constructor-clausula : Lista-de-literales → Clausula
 (define constructor-clausula (lambda (vars)
           (cond
             [(null? (cdr vars))(list (car vars))]
             [else (cons (car vars) (cons 'or(constructor-clausula (cdr vars))))]
             )))
 
+;; Construye una lista de cláusulas insertando el operador lógico (AND) entre cada cláusula.
+;; constructor-clausulas : Lista-de-clausulas → Clausulas
 (define constructor-clausulas (lambda (cls)
           (cond
             [(null? (cdr cls)) (list (car cls))]
             [else (cons (car cls) (cons 'and (constructor-clausulas (cdr cls))))])))
 
+;; Construye una fórmula en Forma Normal Conjuntiva (FNC) a partir del número de
+;; variables y de la lista de cláusulas que la componen.
 (define constructor-FNC (lambda (numvars cls) (list 'FNC numvars cls)))
 
-
-;; Extractores
+;; EXTRACTORES
 
 (define fnc->numvars (lambda (fnc-exp) (car (cdr fnc-exp))))
 
