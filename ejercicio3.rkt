@@ -7,19 +7,46 @@
  
 #|
  Ejercicio 3 - Evaluacion de Instancias SAT
+
+ Gramática BNF (representación concreta - entrada)
+ 
+ <fnc>       ::= FNC <num> <clausulas>
+ 
+ <clausulas> ::= ( <clausula> )
+               | ( <clausula> and <clausulas> )
+ 
+ <clausula>  ::= ( <literales> )
+ 
+ <literales> ::= <literal>
+               | <literal> or <literales>
+ 
+ <literal>   ::= <num>
+               | - <num>
+ 
+ ──────────────────────────────────────────────
+ AST basado en listas (representación abstracta - sobre la que opera EVALUARSAT)
+ 
+ <fnc-ast>        ::= (FNC <num> <clausulas-ast>)
+ <clausulas-ast>  ::= (<clausula-ast>)
+                    | (<clausula-ast> <clausulas-ast>)
+ <clausula-ast>   ::= (<literal-ast> ...)
+ <literal-ast>    ::= <num>          ; positivo: variable verdadera
+                    | - <num>        ; negativo: variable negada (falsa)
+ 
+ ──────────────────────────────────────────────
+ Gramática del resultado
+ 
+ <resultado> ::= (satisfactible <asignacion>)
+               | (insatisfactible '())
+ 
+ <asignacion> ::= (#t | #f ...)     ; un booleano por cada variable
+ 
  
  La idea de EVALUARSAT es recibir una instancia FNC en representacion
  abstracta basada en listas y decir si existe alguna asignacion de
  valores de verdad que la satisfaga o no.
- 
- El AST que recibimos tiene la forma:
-   (FNC <numvars> <clausulas>)
- 
- donde <clausulas> es una lista de listas de literales. Cada literal
- es un entero: si es positivo n, significa que la variable n debe ser
- verdadera; si es negativo -n, significa que debe ser falsa.
 
- Asi que para resolverlo: generamos todas las combinaciones
+ Asi que para esto generamos todas las combinaciones
  posibles de valores para las n variables (son 2^n combinaciones) y
  probamos cada una hasta encontrar una que satisfaga todas las clausulas,
  o hasta agotar todas sin exito.

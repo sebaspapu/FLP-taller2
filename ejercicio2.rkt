@@ -8,19 +8,27 @@
 #|
  Ejercicio 2 - Parse y Unparse para instancias SAT
  
- La gramatica BNF concreta que usamos es:
+ Gramática BNF (representación concreta)
  
-   <fnc>       ::= (FNC <num> <clausulas>)
-   <clausulas> ::= (<clausula>)
-                  | (<clausula> and <clausulas>)
-   <clausula>  ::= (<num>)
-                  | (<num> or <clausula>)
-
- Y el AST que produce PARSEBNF tiene la forma:
+ <fnc>      ::= FNC <num> <clausulas>
  
-   <fnc-ast>       ::= (FNC <num> <clausulas-ast>)
-   <clausulas-ast> ::= (<clausula-ast> ...)
-   <clausula-ast>  ::= (<num> ...)   ; solo los literales, sin 'or
+ <clausulas> ::= ( <clausula> )
+               | ( <clausula> and <clausulas> )
+ 
+ <clausula>  ::= ( <literales> )
+ 
+ <literales> ::= <literal>
+               | <literal> or <literales>
+ 
+ <literal>   ::= <num>
+               | - <num>
+ 
+ AST (representación abstracta)
+ 
+ <fnc-ast>       ::= (FNC <num> <clausulas-ast>)
+ <clausulas-ast> ::= ( <clausula-ast> )
+                   | ( <clausula-ast> <clausulas-ast> )
+ <clausula-ast>  ::= ( <num> ... )   ; lista plana de literales
  
  PARSEBNF toma la representacion concreta y construye el AST.
  UNPARSEBNF en cambio hace el camino inverso: del AST vuelve a la BNF.
