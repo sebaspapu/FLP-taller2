@@ -147,10 +147,10 @@ lista-clausulas)))
              (parse-clausulas (cddr cls)))])))
 
 
-;; Convierte una formula SAT en BNF a su arbol de sintaxis abstrata (AST)
+;; Convierte una formula SAT representada en BNF a su arbol de sintaxis abstrata (AST)
 ;;
 ;; Ejemplo:
-;; (FNC 3 '((1 or 2) and (3))) -> (FNC 3 ((1 2) (3)))
+;; (PARSEBNF '(FNC 3 ((1 or 2) and (3)))) -> (FNC 3 ((1 2) (3)))
 ;;
 ;; PARSEBNF : BNF -> AST
 (define PARSEBNF (lambda (fnc)
