@@ -6,6 +6,9 @@
 ;;-----------------------------------------
  
 #|
+
+ Ejercicio 1 - Gramatica BNF y representaciones de instancias SAT
+ 
  Gramática BNF
  
  <fnc>      ::= FNC <num> <clausulas>
@@ -20,6 +23,11 @@
  
  <literal>   ::= <num>
                | - <num>
+
+ Implementamos dos versiones: una basada en listas y otra en datatypes.
+ Para la de listas definimos constructores, extractores y predicados.
+ Para la de datatypes usamos define-datatype directamente.
+
 |#
  
 ;; ============================================================
