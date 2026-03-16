@@ -6,6 +6,7 @@
 ;;-----------------------------------------
 
 #|
+ 
  Ejercicio 2 - Parse y Unparse para instancias SAT
  
  Gramática BNF (representación concreta)
@@ -22,7 +23,8 @@
  
  <literal>   ::= <num>
                | - <num>
- 
+
+ ────────────────────────────────────────────── 
  AST (representación abstracta)
  
  <fnc-ast>       ::= (FNC <num> <clausulas-ast>)
